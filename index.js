@@ -31,6 +31,9 @@ async function main() {
 
         const data = await response.json();
         console.log(`success: ${data.success}`);
+        if (!data.success) {
+          console.log(data.message);
+        }
       } else {
         console.log(`User, ${pullRequestFiler}, not found in Bonusly object`);
       }
