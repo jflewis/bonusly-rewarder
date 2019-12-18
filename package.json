@@ -1,0 +1,11 @@
+{
+  "name": "bonusly-rewarder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^2.0.0",
+    "node-fetch": "^2.6.0"
+  }
+}

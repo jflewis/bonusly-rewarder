@@ -1,0 +1,15 @@
+name: "do work, get point"
+description: "Here is a cookie"
+inputs:
+  bonusly_token: # id of input
+    description: "Bonusly API token"
+    required: true
+  user_map:
+    description: "JSON map of github users to bonusly users"
+    required: true
+  point_count:
+    description: "number of high fives to give"
+    required: true
+runs:
+  using: "node12"
+  main: "index.js"
