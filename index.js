@@ -1,6 +1,24 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const fetch = require("node-fetch");
+const _ = require("underscore");
+
+const HASHTAGS = [
+  "#good-work",
+  "#awesome",
+  "#PR-strong",
+  "#tech-chops",
+  "#hustle",
+  "extra-mile"
+];
+const QUOTES = [
+  "Good job closing that PR!",
+  "Nailing it!",
+  "Keep up the good work!",
+  "Go Team!",
+  "Hey, GREAT JOB!",
+  "That's a great PR"
+];
 
 async function main() {
   try {
@@ -17,7 +35,9 @@ async function main() {
       if (userMap[pullRequestFiler]) {
         const bonusReciever = userMap[pullRequestFiler];
         const body = {
-          reason: `+${highFiveCount} ${bonusReciever} for closing that PR! #good-work #proud #PR-strong #bot`
+          reason: `+${highFiveCount} ${bonusReciever} ${_.sample(
+            QUOTES
+          )} ${_.sample(HASHTAGS)} ${_.sample(HASHTAGS)} #bonuslyBot`
         };
         console.log(body);
         const response = await fetch("https://bonus.ly/api/v1/bonuses", {
