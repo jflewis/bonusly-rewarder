@@ -8,20 +8,19 @@ async function main() {
     const userMap = JSON.parse(core.getInput("user_map"));
     const highFiveCount = core.getInput("point_count");
 
-    const payload = JSON.stringify(github.context.payload);
-    console.log(`The event payload: ${payload}`);
-
-    if (payload.action === "closed" && payload.pull_request.merged) {
-      const pullRequestFiler = payload.pull_request.user.login;
+    if (
+      github.context.payload.action === "closed" &&
+      github.context.payload.pull_request.merged
+    ) {
+      const pullRequestFiler = github.context.payload.pull_request.user.login;
+      console.log(`User who filed the PR: ${pullRequestFiler}`);
       if (userMap[pullRequestFiler]) {
         const bonusReciever = userMap[pullRequestFiler];
         const body = {
           reason: `+${highFiveCount} ${bonusReciever} for closing that PR! #good-work #proud #PR-strong #bot`
         };
-
         console.log(body);
-
-        await fetch("https://bonus.ly/api/v1/bonuses", {
+        const response = await fetch("https://bonus.ly/api/v1/bonuses", {
           method: "post",
           body: JSON.stringify(body),
           headers: {
@@ -29,9 +28,16 @@ async function main() {
             Authorization: `Bearer ${bonuslyToken}`
           }
         });
+
+        const data = await response.json();
+        console.log(`success: ${data.success}`);
+      } else {
+        console.log(`User, ${pullRequestFiler}, not found in Bonusly object`);
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 main();
